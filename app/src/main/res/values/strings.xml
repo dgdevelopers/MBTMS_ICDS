@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MBTMS</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="tv_login_user_email">Email</string>
+    <string name="tv_user_psw">Password</string>
+    <string name="btn_user_login_text">Login</string>
+    <string name="tv_register_text">Register user.</string>
+    <string name="tv_forgot_text">Forgot Password? | </string>
+    <string name="msg_txt_cent_cnt">You have 0 Centres in the Database</string>
+    <string name="btn_dwnld_cent_txt">Download Centres</string>
+
+</resources>

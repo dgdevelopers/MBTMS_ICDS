@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:padding="5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/row_centre_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:text="Dummy Centre Dummy Centre Dummy Centre"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxLength="20"/>
+
+    <TextView
+        android:id="@+id/row_centre_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_centre_name"
+        android:text="Code: 19328100100" />
+
+    <TextView
+        android:id="@+id/row_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Status: Unsynced"
+         />
+    <TextView
+        android:id="@+id/row_last_visited"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/row_status"
+        android:text="Last visited on: 31/12/2018"
+        />
+
+
+
+</RelativeLayout>
