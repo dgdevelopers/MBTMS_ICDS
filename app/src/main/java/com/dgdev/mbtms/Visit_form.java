@@ -20,7 +20,7 @@ public class Visit_form extends Fragment {
     String code, name, uid;
     TextView tvCentName, tvCentCode;
     Switch cSwitch;
-    TableRow tr01,tr02,tr03,tr04,tr05,tr06,tr07,tr08,tr09,tr10,tr11,tr12,tr13,tr14;
+    TableRow tr01,tr02,tr04,tr05,tr06,tr07,tr08,tr09,tr10,tr11,tr12,tr13,tr14;
 
     public Visit_form() {
         // Required empty public constructor
@@ -39,7 +39,6 @@ public class Visit_form extends Fragment {
         cSwitch = (Switch)view.findViewById(R.id.vis_cent_open_switch);
         tr01 = (TableRow)view.findViewById(R.id.row_open_01);
         tr02 = (TableRow)view.findViewById(R.id.row_open_02);
-        tr03 = (TableRow)view.findViewById(R.id.row_open_03);
         tr04 = (TableRow)view.findViewById(R.id.row_open_04);
         tr05 = (TableRow)view.findViewById(R.id.row_open_05);
         tr06 = (TableRow)view.findViewById(R.id.row_open_06);
@@ -60,7 +59,6 @@ public class Visit_form extends Fragment {
                     cSwitch.setText(cSwitch.getTextOn().toString());
                     tr01.setVisibility(View.VISIBLE);
                     tr02.setVisibility(View.VISIBLE);
-                    tr03.setVisibility(View.VISIBLE);
                     tr04.setVisibility(View.VISIBLE);
                     tr05.setVisibility(View.VISIBLE);
                     tr06.setVisibility(View.VISIBLE);
@@ -76,7 +74,6 @@ public class Visit_form extends Fragment {
                     cSwitch.setText(cSwitch.getTextOff().toString());
                     tr01.setVisibility(View.GONE);
                     tr02.setVisibility(View.GONE);
-                    tr03.setVisibility(View.GONE);
                     tr04.setVisibility(View.GONE);
                     tr05.setVisibility(View.GONE);
                     tr06.setVisibility(View.GONE);
@@ -88,7 +85,6 @@ public class Visit_form extends Fragment {
                     tr12.setVisibility(View.GONE);
                     tr13.setVisibility(View.GONE);
                     tr14.setVisibility(View.GONE);
-
                 }
             }
         });

@@ -93,12 +93,15 @@
                     android:textStyle="bold" />
 
                 <Switch
+                    android:id="@+id/ans_cent_open"
                     android:layout_weight="1"
                     android:textOff="No."
                     android:textOn="Yes" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp" android:id="@+id/row_open_01">
+            <TableRow
+                android:id="@+id/row_open_01"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -106,11 +109,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_tot_ben"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp" android:id="@+id/row_open_02">
+            <TableRow
+                android:id="@+id/row_open_02"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -118,23 +124,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_ben_serv"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp" android:id="@+id/row_open_03">
-
-                <TextView
-                    android:layout_weight="1"
-                    android:text="No. of Beneficiaries (SNP) served"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:inputType="number"
-                    android:maxLength="4" />
-            </TableRow>
-
-            <TableRow android:layout_margin="10dp" android:id="@+id/row_open_04">
+            <TableRow
+                android:id="@+id/row_open_04"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -142,11 +139,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_6m_6y"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_05">
+            <TableRow
+                android:id="@+id/row_open_05"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -154,11 +154,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_mor_snks"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_06">
+            <TableRow
+                android:id="@+id/row_open_06"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -166,11 +169,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_3y_6Y"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_07">
+            <TableRow
+                android:id="@+id/row_open_07"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -178,11 +184,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_pse"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_08">
+            <TableRow
+                android:id="@+id/row_open_08"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -190,11 +199,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_blw_5y"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_09">
+            <TableRow
+                android:id="@+id/row_open_09"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -202,11 +214,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_weighed"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_10">
+            <TableRow
+                android:id="@+id/row_open_10"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -215,11 +230,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_mal_mod"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp" android:id="@+id/row_open_11">
+            <TableRow
+                android:id="@+id/row_open_11"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -227,11 +245,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_chld_mal_severe"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_12">
+            <TableRow
+                android:id="@+id/row_open_12"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -239,11 +260,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_mom_meet"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_13">
+            <TableRow
+                android:id="@+id/row_open_13"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -251,11 +275,14 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/ans_cent_reg"
                     android:inputType="number"
                     android:maxLength="4" />
             </TableRow>
 
-            <TableRow android:layout_margin="10dp"  android:id="@+id/row_open_14">
+            <TableRow
+                android:id="@+id/row_open_14"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -263,6 +290,7 @@
                     android:textStyle="bold" />
 
                 <Switch
+                    android:id="@+id/ans_cent_ecce"
                     android:layout_weight="1"
                     android:textOff="No."
                     android:textOn="Yes" />
@@ -271,6 +299,7 @@
             <TableRow android:layout_margin="10dp">
 
                 <TextView
+                    android:id="@+id/ans_cent_take_photo"
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
                     android:padding="10dp"
@@ -284,6 +313,7 @@
             <TableRow android:layout_margin="10dp">
 
                 <TextView
+                    android:id="@+id/ans_cent_save"
                     android:layout_weight="1"
                     android:background="@color/colorOkay"
                     android:padding="10dp"
