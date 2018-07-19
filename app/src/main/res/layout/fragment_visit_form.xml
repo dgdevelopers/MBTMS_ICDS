@@ -93,10 +93,10 @@
                     android:textStyle="bold" />
 
                 <Switch
-                    android:id="@+id/ans_cent_open"
+                    android:id="@+id/ans_cent_open_switch"
                     android:layout_weight="1"
-                    android:textOff="No."
-                    android:textOn="Yes" />
+                    android:textOff="N"
+                    android:textOn="Y" />
             </TableRow>
 
             <TableRow
@@ -290,21 +290,22 @@
                     android:textStyle="bold" />
 
                 <Switch
-                    android:id="@+id/ans_cent_ecce"
+                    android:id="@+id/ans_cent_ecce_switch"
                     android:layout_weight="1"
-                    android:textOff="No."
-                    android:textOn="Yes" />
+                    android:textOff="N"
+                    android:textOn="Y" />
             </TableRow>
 
             <TableRow android:layout_margin="10dp">
 
                 <TextView
-                    android:id="@+id/ans_cent_take_photo"
+                    android:id="@+id/btn_cent_take_photo"
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
                     android:padding="10dp"
                     android:text="Attach Photo"
                     android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -313,12 +314,13 @@
             <TableRow android:layout_margin="10dp">
 
                 <TextView
-                    android:id="@+id/ans_cent_save"
+                    android:id="@+id/btn_cent_visit_save"
                     android:layout_weight="1"
                     android:background="@color/colorOkay"
                     android:padding="10dp"
                     android:text="Save Visit"
                     android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

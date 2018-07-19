@@ -22,4 +22,10 @@ public interface CentreDAO {
     @Query("select * from Centres order by Centre_name")
     List<Centres> select_all_centres();
 
+    @Query("update Centres set status=:c_status where Centre_id= :c_code")
+    void update_centre_status(String c_code, String c_status);
+
+    @Query("update Centres set visited_on=:vis_dt where Centre_id= :c_code")
+    void update_centre_visited_on(String c_code, String vis_dt);
+
 }

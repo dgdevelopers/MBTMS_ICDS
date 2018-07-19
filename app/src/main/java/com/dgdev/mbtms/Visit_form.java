@@ -1,6 +1,7 @@
 package com.dgdev.mbtms;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -14,6 +15,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dgdev.mbtms.local.preferences.data.Visitdata;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,9 +30,10 @@ import android.widget.Toast;
 public class Visit_form extends Fragment implements TextWatcher {
 
     String code, name, uid;
-    TextView tvCentName, tvCentCode;
+    TextView tvCentName, tvCentCode, btnTakePhoto, btnSaveVisit;
     Switch cSwitch;
     TableRow tr01, tr02, tr04, tr05, tr06, tr07, tr08, tr09, tr10, tr11, tr12, tr13, tr14;
+    Switch vis_cent_open_switch, ans_cent_open_switch, ans_cent_ecce_switch;
 
     EditText ans_cent_tot_ben, ans_cent_ben_serv, ans_cent_chld_6m_6y, ans_cent_mor_snks, ans_cent_chld_3y_6Y, ans_cent_chld_pse, ans_cent_chld_blw_5y, ans_cent_chld_weighed, ans_cent_chld_mal_mod, ans_cent_chld_mal_severe, ans_cent_mom_meet, ans_cent_reg;
 
@@ -57,6 +67,14 @@ public class Visit_form extends Fragment implements TextWatcher {
         tr12 = (TableRow) view.findViewById(R.id.row_open_12);
         tr13 = (TableRow) view.findViewById(R.id.row_open_13);
         tr14 = (TableRow) view.findViewById(R.id.row_open_14);
+
+        btnTakePhoto = (TextView) view.findViewById(R.id.btn_cent_take_photo);
+        btnSaveVisit = (TextView) view.findViewById(R.id.btn_cent_visit_save);
+
+        vis_cent_open_switch = (Switch) view.findViewById(R.id.vis_cent_open_switch);
+        ans_cent_open_switch = (Switch) view.findViewById(R.id.ans_cent_open_switch);
+        ans_cent_ecce_switch = (Switch) view.findViewById(R.id.ans_cent_ecce_switch);
+
         tvCentName.setText(name);
         tvCentCode.setText(code);
         cSwitch.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +141,21 @@ public class Visit_form extends Fragment implements TextWatcher {
         ans_cent_mom_meet.addTextChangedListener(this);
         ans_cent_reg.addTextChangedListener(this);
 
+
+        btnTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnSaveVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new saveVisitData().execute();
+            }
+        });
+
         return view;
     }
 
@@ -136,6 +169,7 @@ public class Visit_form extends Fragment implements TextWatcher {
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
+
 
     @Override
     public void afterTextChanged(Editable editable) {
@@ -224,5 +258,61 @@ public class Visit_form extends Fragment implements TextWatcher {
             ans_cent_reg.setError("No. of registers should be 12 or less!");
         }
 
+    }
+
+    private class saveVisitData extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Visitdata vd = new Visitdata();
+            vd.setVisit_id(0);
+            vd.setCentreid(code);
+            vd.setUserid(uid);
+            vd.setVisit_date(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            vd.setVisit_lat("26");
+            vd.setVisit_long("88");
+            vd.setVisit_pic("#n/a");
+            vd.setOwn_building(vis_cent_open_switch.isChecked()?"Y":"N");
+            vd.setCentre_open(ans_cent_open_switch.isChecked()?"Yes":"No");
+            if (ans_cent_open_switch.isChecked()== false){
+                vd.setBenef_total(0);
+                vd.setBenef_serve(0);
+                vd.setChld_7m_6y_tot(0);
+                vd.setChld_7m_6y_Mor_Snacks(0);
+                vd.setChld_3y_6y_tot(0);
+                vd.setChld_3y_6y_PSE(0);
+                vd.setChld_blw_5y_tot(0);
+                vd.setChld_blw_5y_weighted(0);
+                vd.setChld_blw_5y_mal_mod(0);
+                vd.setChld_blw_5y_mal_severe(0);
+                vd.setMother_meet(0);
+                vd.setRegister_found(0);
+                vd.setEcce_followed("N");
+            }else{
+                vd.setBenef_total(tot_snp);
+                vd.setBenef_serve(tot_snp_serv);
+                vd.setChld_7m_6y_tot(tot_6_6);
+                vd.setChld_7m_6y_Mor_Snacks(mor_snks);
+                vd.setChld_3y_6y_tot(tot_3_6);
+                vd.setChld_3y_6y_PSE(pse);
+                vd.setChld_blw_5y_tot(tot_blw_5);
+                vd.setChld_blw_5y_weighted(weighed);
+                vd.setChld_blw_5y_mal_mod(mal_mod);
+                vd.setChld_blw_5y_mal_severe(mal_seve);
+                vd.setMother_meet(mom_meet);
+                vd.setRegister_found(register);
+                vd.setEcce_followed(ans_cent_ecce_switch.isChecked()?"Y":"N");
+            }
+            MainActivity.db.visitDAO().insert_visit(vd);
+            MainActivity.db.centreDAO().update_centre_status(code,"Unsynced");
+            MainActivity.db.centreDAO().update_centre_visited_on(code,"Last visited:"+(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date())));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getActivity(), "Visit saved successfully...", Toast.LENGTH_LONG).show();
+        }
     }
 }
