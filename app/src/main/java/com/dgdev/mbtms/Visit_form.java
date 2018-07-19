@@ -1,8 +1,18 @@
 package com.dgdev.mbtms;
 
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +25,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dgdev.mbtms.local.preferences.RealPathUtils;
 import com.dgdev.mbtms.local.preferences.data.Visitdata;
 
 import org.w3c.dom.Text;
@@ -23,22 +34,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Visit_form extends Fragment implements TextWatcher {
-
-    String code, name, uid;
+public class Visit_form extends Fragment implements TextWatcher, LocationListener {
+    private LocationManager locationManager;
+    private static final int SELECT_PICTURE = 7777;
+    String code, name, uid, vispic;
     TextView tvCentName, tvCentCode, btnTakePhoto, btnSaveVisit;
     Switch cSwitch;
     TableRow tr01, tr02, tr04, tr05, tr06, tr07, tr08, tr09, tr10, tr11, tr12, tr13, tr14;
     Switch vis_cent_open_switch, ans_cent_open_switch, ans_cent_ecce_switch;
+    Uri selectedImageUri;
 
     EditText ans_cent_tot_ben, ans_cent_ben_serv, ans_cent_chld_6m_6y, ans_cent_mor_snks, ans_cent_chld_3y_6Y, ans_cent_chld_pse, ans_cent_chld_blw_5y, ans_cent_chld_weighed, ans_cent_chld_mal_mod, ans_cent_chld_mal_severe, ans_cent_mom_meet, ans_cent_reg;
 
     Integer tot_snp, tot_snp_serv, tot_6_6, mor_snks, tot_3_6, pse, tot_blw_5, weighed, mal_mod, mal_seve, mom_meet, register;
-
+    String latitude,longitude;
     public Visit_form() {
         // Required empty public constructor
     }
@@ -145,7 +160,11 @@ public class Visit_form extends Fragment implements TextWatcher {
         btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Picture"), SELECT_PICTURE);
             }
         });
 
@@ -155,6 +174,23 @@ public class Visit_form extends Fragment implements TextWatcher {
                 new saveVisitData().execute();
             }
         });
+
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+
+        if (ActivityCompat.checkSelfPermission(
+                getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+
+            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+            onLocationChanged(location);
+        }
+
+
 
         return view;
     }
@@ -260,6 +296,28 @@ public class Visit_form extends Fragment implements TextWatcher {
 
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = location.getLatitude()+"";
+        longitude = location.getLongitude()+"";
+        Toast.makeText(getContext(), latitude + " || " + longitude, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
     private class saveVisitData extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -269,12 +327,12 @@ public class Visit_form extends Fragment implements TextWatcher {
             vd.setCentreid(code);
             vd.setUserid(uid);
             vd.setVisit_date(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
-            vd.setVisit_lat("26");
-            vd.setVisit_long("88");
-            vd.setVisit_pic("#n/a");
-            vd.setOwn_building(vis_cent_open_switch.isChecked()?"Y":"N");
-            vd.setCentre_open(ans_cent_open_switch.isChecked()?"Yes":"No");
-            if (ans_cent_open_switch.isChecked()== false){
+            vd.setVisit_lat(latitude);
+            vd.setVisit_long(longitude);
+            vd.setVisit_pic(vispic);
+            vd.setOwn_building(vis_cent_open_switch.isChecked() ? "Y" : "N");
+            vd.setCentre_open(ans_cent_open_switch.isChecked() ? "Yes" : "No");
+            if (ans_cent_open_switch.isChecked() == false) {
                 vd.setBenef_total(0);
                 vd.setBenef_serve(0);
                 vd.setChld_7m_6y_tot(0);
@@ -288,7 +346,7 @@ public class Visit_form extends Fragment implements TextWatcher {
                 vd.setMother_meet(0);
                 vd.setRegister_found(0);
                 vd.setEcce_followed("N");
-            }else{
+            } else {
                 vd.setBenef_total(tot_snp);
                 vd.setBenef_serve(tot_snp_serv);
                 vd.setChld_7m_6y_tot(tot_6_6);
@@ -301,11 +359,11 @@ public class Visit_form extends Fragment implements TextWatcher {
                 vd.setChld_blw_5y_mal_severe(mal_seve);
                 vd.setMother_meet(mom_meet);
                 vd.setRegister_found(register);
-                vd.setEcce_followed(ans_cent_ecce_switch.isChecked()?"Y":"N");
+                vd.setEcce_followed(ans_cent_ecce_switch.isChecked() ? "Y" : "N");
             }
             MainActivity.db.visitDAO().insert_visit(vd);
-            MainActivity.db.centreDAO().update_centre_status(code,"Unsynced");
-            MainActivity.db.centreDAO().update_centre_visited_on(code,"Last visited:"+(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date())));
+            MainActivity.db.centreDAO().update_centre_status(code, "Unsynced");
+            MainActivity.db.centreDAO().update_centre_visited_on(code, "Last visited:" + (new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date())));
             return null;
         }
 
@@ -315,4 +373,20 @@ public class Visit_form extends Fragment implements TextWatcher {
             Toast.makeText(getActivity(), "Visit saved successfully...", Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            selectedImageUri = data.getData();
+            Toast.makeText(getActivity(), selectedImageUri.toString(), Toast.LENGTH_LONG).show();
+            vispic = RealPathUtils.getRealPathFromURI_API19(getContext(), selectedImageUri);
+            Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
+
+
+        }
+
+
+    }
 }
+
