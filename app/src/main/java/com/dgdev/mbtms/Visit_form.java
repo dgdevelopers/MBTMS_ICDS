@@ -53,7 +53,8 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
     EditText ans_cent_tot_ben, ans_cent_ben_serv, ans_cent_chld_6m_6y, ans_cent_mor_snks, ans_cent_chld_3y_6Y, ans_cent_chld_pse, ans_cent_chld_blw_5y, ans_cent_chld_weighed, ans_cent_chld_mal_mod, ans_cent_chld_mal_severe, ans_cent_mom_meet, ans_cent_reg;
 
     Integer tot_snp, tot_snp_serv, tot_6_6, mor_snks, tot_3_6, pse, tot_blw_5, weighed, mal_mod, mal_seve, mom_meet, register;
-    String latitude,longitude;
+    String latitude, longitude;
+
     public Visit_form() {
         // Required empty public constructor
     }
@@ -191,7 +192,6 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         }
 
 
-
         return view;
     }
 
@@ -298,9 +298,9 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        latitude = location.getLatitude()+"";
-        longitude = location.getLongitude()+"";
-        Toast.makeText(getContext(), latitude + " || " + longitude, Toast.LENGTH_LONG).show();
+        latitude = location.getLatitude() + "";
+        longitude = location.getLongitude() + "";
+        Toast.makeText(getContext(), "Visit location is : " + latitude + " || " + longitude, Toast.LENGTH_LONG).show();
     }
 
     @Override
