@@ -379,9 +379,10 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             selectedImageUri = data.getData();
-            Toast.makeText(getActivity(), selectedImageUri.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), selectedImageUri.toString(), Toast.LENGTH_LONG).show();
             vispic = RealPathUtils.getRealPathFromURI_API19(getContext(), selectedImageUri);
             Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
+            //vispic = selectedImageUri.toString();
 
 
         }
