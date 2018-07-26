@@ -46,7 +46,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
     String code, name, uid, vispic;
     TextView tvCentName, tvCentCode, btnTakePhoto, btnSaveVisit;
     Switch cSwitch;
-    TableRow tr01, tr02, tr04, tr05, tr06, tr07, tr08, tr09, tr10, tr11, tr12, tr13, tr14;
+    TableRow tr01, tr02, tr03, tr04, tr05, tr06, tr07, tr08, tr09, tr10, tr11, tr12, tr13, tr14;
     Switch vis_cent_open_switch, ans_cent_open_switch, ans_cent_ecce_switch;
     Uri selectedImageUri;
 
@@ -72,6 +72,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         cSwitch = (Switch) view.findViewById(R.id.vis_cent_open_switch);
         tr01 = (TableRow) view.findViewById(R.id.row_open_01);
         tr02 = (TableRow) view.findViewById(R.id.row_open_02);
+        tr03 = (TableRow) view.findViewById(R.id.row_open_03);
         tr04 = (TableRow) view.findViewById(R.id.row_open_04);
         tr05 = (TableRow) view.findViewById(R.id.row_open_05);
         tr06 = (TableRow) view.findViewById(R.id.row_open_06);
@@ -100,6 +101,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
                     cSwitch.setText(cSwitch.getTextOn().toString());
                     tr01.setVisibility(View.VISIBLE);
                     tr02.setVisibility(View.VISIBLE);
+                    tr03.setVisibility(View.VISIBLE);
                     tr04.setVisibility(View.VISIBLE);
                     tr05.setVisibility(View.VISIBLE);
                     tr06.setVisibility(View.VISIBLE);
@@ -115,6 +117,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
                     cSwitch.setText(cSwitch.getTextOff().toString());
                     tr01.setVisibility(View.GONE);
                     tr02.setVisibility(View.GONE);
+                    tr03.setVisibility(View.GONE);
                     tr04.setVisibility(View.GONE);
                     tr05.setVisibility(View.GONE);
                     tr06.setVisibility(View.GONE);
@@ -330,7 +333,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             vd.setVisit_lat(latitude);
             vd.setVisit_long(longitude);
             vd.setVisit_pic(vispic);
-            vd.setOwn_building(vis_cent_open_switch.isChecked() ? "Y" : "N");
+            vd.setOwn_building(vis_cent_open_switch.isChecked() ? "Yes" : "No");
             vd.setCentre_open(ans_cent_open_switch.isChecked() ? "Yes" : "No");
             if (ans_cent_open_switch.isChecked() == false) {
                 vd.setBenef_total(0);
@@ -359,7 +362,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
                 vd.setChld_blw_5y_mal_severe(mal_seve);
                 vd.setMother_meet(mom_meet);
                 vd.setRegister_found(register);
-                vd.setEcce_followed(ans_cent_ecce_switch.isChecked() ? "Y" : "N");
+                vd.setEcce_followed(ans_cent_ecce_switch.isChecked() ? "Yes" : "No");
             }
             MainActivity.db.visitDAO().insert_visit(vd);
             MainActivity.db.centreDAO().update_centre_status(code, "Unsynced");
@@ -379,15 +382,9 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             selectedImageUri = data.getData();
-            //Toast.makeText(getActivity(), selectedImageUri.toString(), Toast.LENGTH_LONG).show();
             vispic = RealPathUtils.getRealPathFromURI_API19(getContext(), selectedImageUri);
             Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
-            //vispic = selectedImageUri.toString();
-
-
         }
-
-
     }
 }
 

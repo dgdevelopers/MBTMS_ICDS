@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MBTMS</string>
+    <string name="app_name">MTMS</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">Open navigation drawer</string>
@@ -11,5 +11,7 @@
     <string name="tv_forgot_text">Forgot Password? | </string>
     <string name="msg_txt_cent_cnt">You have 0 Centres in the Database</string>
     <string name="btn_dwnld_cent_txt">Download Centres</string>
+    <string name="btn_upload_data_label">Upload Visit Data</string>
+    <string name="btn_prepare_data">Prepare Data</string>
 
 </resources>

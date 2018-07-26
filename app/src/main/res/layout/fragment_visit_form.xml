@@ -85,7 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TableRow android:layout_margin="10dp">
+            <TableRow
+                android:id="@+id/row_open_01"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -100,7 +102,7 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/row_open_01"
+                android:id="@+id/row_open_02"
                 android:layout_margin="10dp">
 
                 <TextView
@@ -115,7 +117,7 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/row_open_02"
+                android:id="@+id/row_open_03"
                 android:layout_margin="10dp">
 
                 <TextView
