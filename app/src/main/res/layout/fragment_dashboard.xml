@@ -108,7 +108,10 @@
 
     </android.support.constraint.ConstraintLayout>
     <!--Dashboard statistics for the looged user-->
+
+
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/dashStatBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -177,6 +180,7 @@
             android:layout_marginStart="16dp"
             android:text="During last 30 days"
             android:textColor="@color/cardview_light_background"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -87,7 +87,7 @@ public class Userscreen extends Fragment {
                         }
                         @Override
                         public void onFailure(Call<ModelLoginResponse> call, Throwable t) {
-                            Toast.makeText(view.getContext(), "Can't talk to server...", Toast.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }catch (Exception e){

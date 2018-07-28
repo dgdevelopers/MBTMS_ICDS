@@ -98,27 +98,6 @@ public class Tools extends Fragment {
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < ListofData.size(); i++) {
-//                    String userid = ListofData.get(i).getUserid();
-//                    String centreid = ListofData.get(i).getCentreid();
-//                    String visit_date = ListofData.get(i).getVisit_date();
-//                    String visit_lat = ListofData.get(i).getVisit_lat();
-//                    String visit_long = ListofData.get(i).getVisit_long();
-//                    String visit_pic = "";
-//                    String own_building = ListofData.get(i).getOwn_building();
-//                    String centre_open = ListofData.get(i).getCentre_open();
-//                    int benef_total = ListofData.get(i).getBenef_total();
-//                    int benef_serve = ListofData.get(i).getBenef_serve();
-//                    int chld_7m_6y_tot = ListofData.get(i).getChld_7m_6y_tot();
-//                    int chld_7m_6y_Mor_Snacks = ListofData.get(i).getChld_7m_6y_Mor_Snacks();
-//                    int chld_3y_6y_tot = ListofData.get(i).getChld_3y_6y_tot();
-//                    int chld_3y_6y_PSE = ListofData.get(i).getChld_3y_6y_PSE();
-//                    int chld_blw_5y_tot = ListofData.get(i).getChld_blw_5y_tot();
-//                    int chld_blw_5y_weighted = ListofData.get(i).getChld_blw_5y_weighted();
-//                    int chld_blw_5y_mal_mod = ListofData.get(i).getChld_blw_5y_mal_mod();
-//                    int chld_blw_5y_mal_severe = ListofData.get(i).getChld_blw_5y_mal_severe();
-//                    int mother_meet = ListofData.get(i).getMother_meet();
-//                    int register_found = ListofData.get(i).getRegister_found();
-//                    String ecce_followed = ListofData.get(i).getEcce_followed ();
 
                     Uri uri = Uri.fromFile(new File(ListofData.get(i).getVisit_pic()));
 

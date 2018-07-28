@@ -23,32 +23,6 @@ public interface APIInterface {
     @GET("centrelist")
     Call<List<ModelCentreListItem>> getCentreList(@Query("uid") String uid);
 
-//    @POST("uploadvisit")
-//    @FormUrlEncoded
-//    Call<ModelUploadResponse> uploadVisitData(
-//            @Field("userid")String userid,
-//            @Field("centreid")String centreid,
-//            @Field("visit_date")String visit_date,
-//            @Field("visit_lat")String visit_lat,
-//            @Field("visit_long")String visit_long,
-//            @Field("visit_pic")String visit_pic,
-//            @Field("own_building")String own_building,
-//            @Field("centre_open")String centre_open,
-//            @Field("benef_total")int benef_total,
-//            @Field("benef_serve")int benef_serve,
-//            @Field("chld_7m_6y_tot")int chld_7m_6y_tot,
-//            @Field("chld_7m_6y_Mor_Snacks")int chld_7m_6y_Mor_Snacks,
-//            @Field("chld_3y_6y_tot")int chld_3y_6y_tot,
-//            @Field("chld_3y_6y_PSE")int chld_3y_6y_PSE,
-//            @Field("chld_blw_5y_tot")int chld_blw_5y_tot,
-//            @Field("chld_blw_5y_weighted")int chld_blw_5y_weighted,
-//            @Field("chld_blw_5y_mal_mod")int chld_blw_5y_mal_mod,
-//            @Field("chld_blw_5y_mal_severe")int chld_blw_5y_mal_severe,
-//            @Field("mother_meet")int mother_meet,
-//            @Field("register_found")int register_found,
-//            @Field("ecce_followed")String ecce_followed
-//    );
-
     @POST("uploadvisit")
     @Multipart
     Call<ModelUploadResponse> uploadVisitData(
@@ -75,4 +49,11 @@ public interface APIInterface {
             @Part("ecce_followed")RequestBody ecce_followed
     );
 
+    @POST("efficiency")
+    @FormUrlEncoded
+    Call<ModelEfficiencyResponse> getEffciency(
+            @Field("id") String id,
+            @Field("fromdate") String fromdate,
+            @Field("todate") String todate
+    );
 }

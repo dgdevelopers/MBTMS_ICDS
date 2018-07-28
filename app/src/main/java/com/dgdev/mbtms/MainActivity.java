@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.dgdev.mbtms.local.preferences.PreferencesConfig;
 import com.dgdev.mbtms.local.preferences.data.AppLocalDB;
+import com.dgdev.mbtms.remote.ModelEfficiencyResponse;
 
 public class MainActivity extends AppCompatActivity implements Userscreen.OnLoginFragmentActivityListener, Welcome.onWelcomeFragmentActivityLienster, Dashboard.OnDashboardFragmentActivityListener, Reports.OnReportsFragmentActvityListener, Visits.OnVisitFragmentActivityListener, Tools.OnToolsFragmentActivityListener {
     private DrawerLayout mDrawer;
@@ -232,6 +233,10 @@ public class MainActivity extends AppCompatActivity implements Userscreen.OnLogi
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+    }
 
+    @Override
+    public void refreshEfficiencyReport(ModelEfficiencyResponse mer) {
+        preferencesConfig.saveEffiData(mer);
     }
 }
