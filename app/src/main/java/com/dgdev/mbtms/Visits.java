@@ -5,30 +5,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
+import android.widget.ImageButton;
 import com.dgdev.mbtms.local.preferences.data.Centres;
-import com.dgdev.mbtms.remote.APIInterface;
-import com.dgdev.mbtms.remote.ApiUtils;
-import com.dgdev.mbtms.remote.ModelCentreListItem;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -38,7 +24,8 @@ public class Visits extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<Centres> CentresArray;
-
+    ImageButton btnSearch, btnClose;
+    ConstraintLayout constraintLayoutSearch, constraintLayoutTitle;
     public Visits() {
         // Required empty public constructor
     }
@@ -58,7 +45,29 @@ public class Visits extends Fragment {
         visitFragmentActivityListener.checkvisits();
         recyclerView = (RecyclerView) view.findViewById(R.id.Recycler_View_Centres);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        btnSearch = (ImageButton)view.findViewById(R.id.imgBtnSearch);
+        btnClose = (ImageButton)view.findViewById(R.id.imgBtnClose);
+        constraintLayoutSearch = (ConstraintLayout)view.findViewById(R.id.ConstLaySearch);
+        constraintLayoutTitle = (ConstraintLayout)view.findViewById(R.id.constLayoutHead);
+
         new loadlist().execute();
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                constraintLayoutTitle.setVisibility(View.VISIBLE);
+                constraintLayoutSearch.setVisibility(View.GONE);
+
+            }
+        });
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                constraintLayoutSearch.setVisibility(View.VISIBLE);
+                constraintLayoutTitle.setVisibility(View.GONE);
+            }
+        });
         return view;
     }
 

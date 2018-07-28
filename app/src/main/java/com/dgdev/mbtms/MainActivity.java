@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.dgdev.mbtms.local.preferences.PreferencesConfig;
 import com.dgdev.mbtms.local.preferences.data.AppLocalDB;
@@ -31,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements Userscreen.OnLogi
         preferencesConfig = new PreferencesConfig(this);
 
         // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -194,5 +195,43 @@ public class MainActivity extends AppCompatActivity implements Userscreen.OnLogi
             Userscreen userscreen = new Userscreen();
             getSupportFragmentManager().beginTransaction().replace(R.id.flContent, userscreen).addToBackStack(null).commit();
         }
+    }
+
+    @Override
+    public void backToDash() {
+        Dashboard dashboard = new Dashboard();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, dashboard).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void navigate2Fragment(ImageView imageView) {
+
+        Fragment fragment = null;
+        Class fragmentClass;
+        switch (imageView.getId()) {
+            case R.id.img_visit:
+                fragmentClass = Visits.class;
+                break;
+            case R.id.img_upload:
+                fragmentClass = Tools.class;
+                break;
+            case R.id.img_download:
+                fragmentClass = Tools.class;
+                break;
+            case R.id.img_logout:
+                fragmentClass = Userscreen.class;
+                break;
+            default:
+                fragmentClass = Dashboard.class;
+        }
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+
     }
 }

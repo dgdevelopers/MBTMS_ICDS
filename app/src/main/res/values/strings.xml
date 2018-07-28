@@ -13,5 +13,6 @@
     <string name="btn_dwnld_cent_txt">Download Centres</string>
     <string name="btn_upload_data_label">Upload Visit Data</string>
     <string name="btn_prepare_data">Prepare Data</string>
+    <string name="sub_title">for ICDS, Jalpaiguri</string>
 
 </resources>

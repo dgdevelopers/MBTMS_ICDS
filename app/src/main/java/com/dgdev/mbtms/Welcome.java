@@ -19,8 +19,10 @@ import com.dgdev.mbtms.local.preferences.PreferencesConfig;
 public class Welcome extends Fragment {
 
 
+
     public interface onWelcomeFragmentActivityLienster {
         public void logout();
+        public void backToDash();
     }
 
     onWelcomeFragmentActivityLienster welcomeFragmentActivityLienster;
@@ -36,12 +38,19 @@ public class Welcome extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
-        final Button button = (Button) view.findViewById(R.id.btn_logout);
+        final Button btnLogOut = (Button) view.findViewById(R.id.btn_logout);
+        final Button btnBack2Dash = (Button) view.findViewById(R.id.btnBackToDash);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 welcomeFragmentActivityLienster.logout();
+            }
+        });
+        btnBack2Dash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                welcomeFragmentActivityLienster.backToDash();
             }
         });
 

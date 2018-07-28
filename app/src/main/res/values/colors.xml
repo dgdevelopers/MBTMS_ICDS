@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorOkay">#2ec264</color>
     <color name="colorCancel">#da593c</color>
+    <color name="colordashtitle">#36769d</color>
+    <color name="colordashvisit">#1c3443</color>
+    <color name="colordashupload">#452e83</color>
+    <color name="colordashlogout">#357529</color>
+    <color name="colordashstat">#09ba85</color>
 </resources>
