@@ -9,12 +9,19 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+
 import com.dgdev.mbtms.local.preferences.data.Centres;
+
+import java.util.ArrayList;
 import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -22,10 +29,12 @@ public class Visits extends Fragment {
 
     View view;
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+    public centreAdapter adapter;
     List<Centres> CentresArray;
     ImageButton btnSearch, btnClose;
     ConstraintLayout constraintLayoutSearch, constraintLayoutTitle;
+    EditText editText;
+
     public Visits() {
         // Required empty public constructor
     }
@@ -45,10 +54,11 @@ public class Visits extends Fragment {
         visitFragmentActivityListener.checkvisits();
         recyclerView = (RecyclerView) view.findViewById(R.id.Recycler_View_Centres);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        btnSearch = (ImageButton)view.findViewById(R.id.imgBtnSearch);
-        btnClose = (ImageButton)view.findViewById(R.id.imgBtnClose);
-        constraintLayoutSearch = (ConstraintLayout)view.findViewById(R.id.ConstLaySearch);
-        constraintLayoutTitle = (ConstraintLayout)view.findViewById(R.id.constLayoutHead);
+        btnSearch = (ImageButton) view.findViewById(R.id.imgBtnSearch);
+        btnClose = (ImageButton) view.findViewById(R.id.imgBtnClose);
+        constraintLayoutSearch = (ConstraintLayout) view.findViewById(R.id.ConstLaySearch);
+        constraintLayoutTitle = (ConstraintLayout) view.findViewById(R.id.constLayoutHead);
+        editText = (EditText) view.findViewById(R.id.etSearchCentre);
 
         new loadlist().execute();
 
@@ -68,8 +78,27 @@ public class Visits extends Fragment {
                 constraintLayoutTitle.setVisibility(View.GONE);
             }
         });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                adapter.getFilter().filter(editable.toString().toLowerCase());
+            }
+        });
+
         return view;
     }
+
 
     @Override
     public void onAttach(Context context) {
