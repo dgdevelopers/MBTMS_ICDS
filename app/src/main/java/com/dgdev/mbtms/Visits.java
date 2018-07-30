@@ -65,9 +65,10 @@ public class Visits extends Fragment {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                adapter.getFilter().filter("");
+                editText.setText("");
                 constraintLayoutTitle.setVisibility(View.VISIBLE);
                 constraintLayoutSearch.setVisibility(View.GONE);
-
             }
         });
 
@@ -82,12 +83,10 @@ public class Visits extends Fragment {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
