@@ -47,7 +47,7 @@ public class Tools extends Fragment {
     TextView textView;
     List<ModelCentreListItem> CentreList;
     List<Visitdata> ListofData;
-
+    private int idx;
     public Tools() {
         // Required empty public constructor
     }
@@ -55,6 +55,7 @@ public class Tools extends Fragment {
     public interface OnToolsFragmentActivityListener {
 
         public void checktools();
+
     }
 
     OnToolsFragmentActivityListener toolsFragmentActivityListener;
@@ -97,10 +98,10 @@ public class Tools extends Fragment {
         btn_upload_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 for (int i = 0; i < ListofData.size(); i++) {
-
+                    idx = i ;
                     Uri uri = Uri.fromFile(new File(ListofData.get(i).getVisit_pic()));
-
                     RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), convertImageToByte(uri));
                     MultipartBody.Part visit_pic = MultipartBody.Part.createFormData("visit_pic", "image.jpg", requestFile);
                     RequestBody userid = RequestBody.create(MediaType.parse("text/plain"), ListofData.get(i).getUserid());
@@ -130,6 +131,9 @@ public class Tools extends Fragment {
                             Toast.makeText(getContext(), response.body().getStatus(), Toast.LENGTH_LONG).show();
                             btn_prepare_data.setVisibility(View.VISIBLE);
                             btn_upload_data.setVisibility(View.GONE);
+                            if (!response.body().getStatus().equals("Data posted successfully!")) {
+                                ListofData.remove(idx);
+                            }
                         }
 
                         @Override
@@ -138,6 +142,7 @@ public class Tools extends Fragment {
                         }
                     });
                 }
+                new updateSuccess().execute();
             }
         });
         btn_prepare_data.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +217,24 @@ public class Tools extends Fragment {
             super.onPostExecute(aVoid);
             btn_prepare_data.setVisibility(View.GONE);
             btn_upload_data.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private class updateSuccess extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (Visitdata v : ListofData) {
+                MainActivity.db.visitDAO().delete_visit(v);
+                MainActivity.db.centreDAO().update_centre_status(v.getCentreid(), "Synced");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getContext(), "Uploading process completed!", Toast.LENGTH_LONG).show();
         }
     }
 }

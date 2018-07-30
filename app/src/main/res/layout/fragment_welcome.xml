@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/logout_backgound"
     tools:context=".Welcome">
 
     <!-- TODO: Update blank fragment layout -->
@@ -18,14 +19,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="You'r already logged in!"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="#ffffff"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.110000014" />
 
     <Button
         android:id="@+id/btn_logout"
