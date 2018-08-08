@@ -4,12 +4,14 @@ package com.dgdev.mbtms;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +103,9 @@ public class Tools extends Fragment {
 
                 for (int i = 0; i < ListofData.size(); i++) {
                     idx = i ;
-                    Uri uri = Uri.fromFile(new File(ListofData.get(i).getVisit_pic()));
+                    //Uri uri = Uri.fromFile(new File(ListofData.get(i).getVisit_pic()));
+                    Uri uri = FileProvider.getUriForFile(getContext(),"com.dgdev.mbtms",new File(ListofData.get(i).getVisit_pic()));
+                    getContext().grantUriPermission("com.dgdev.mbtms",uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), convertImageToByte(uri));
                     MultipartBody.Part visit_pic = MultipartBody.Part.createFormData("visit_pic", "image.jpg", requestFile);
                     RequestBody userid = RequestBody.create(MediaType.parse("text/plain"), ListofData.get(i).getUserid());
