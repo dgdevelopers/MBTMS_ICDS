@@ -75,6 +75,18 @@ public class Tools extends Fragment {
         textView = (TextView) view.findViewById(R.id.tv_disp_centre_download);
         apiInterface = ApiUtils.getAPIService();
         final String uid = MainActivity.preferencesConfig.ReadLoggedUser();
+        switch (getArguments().get("stat").toString()){
+            case "upload":
+                button.setVisibility(View.GONE);
+                btn_upload_data.setVisibility(View.VISIBLE);
+                btn_prepare_data.setVisibility(View.VISIBLE);
+                break;
+            case"download":
+                button.setVisibility(View.VISIBLE);
+                btn_upload_data.setVisibility(View.GONE);
+                btn_prepare_data.setVisibility(View.GONE);
+                break;
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,6 +161,7 @@ public class Tools extends Fragment {
                 new updateSuccess().execute();
             }
         });
+
         btn_prepare_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

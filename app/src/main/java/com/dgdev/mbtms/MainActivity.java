@@ -209,24 +209,31 @@ public class MainActivity extends AppCompatActivity implements Userscreen.OnLogi
 
         Fragment fragment = null;
         Class fragmentClass;
+        Bundle bundle = new Bundle();
         switch (imageView.getId()) {
             case R.id.img_visit:
                 fragmentClass = Visits.class;
+                bundle.putString("stat", "visit");
                 break;
             case R.id.img_upload:
                 fragmentClass = Tools.class;
+                bundle.putString("stat", "upload");
                 break;
             case R.id.img_download:
                 fragmentClass = Tools.class;
+                bundle.putString("stat", "download");
                 break;
             case R.id.img_logout:
                 fragmentClass = Userscreen.class;
+                bundle.putString("stat", "logout");
                 break;
             default:
                 fragmentClass = Dashboard.class;
+                bundle.putString("stat", "dash");
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+            fragment.setArguments(bundle);
         } catch (Exception e) {
             e.printStackTrace();
         }
