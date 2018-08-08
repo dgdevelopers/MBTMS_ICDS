@@ -78,7 +78,7 @@ public class Tools extends Fragment {
         switch (getArguments().get("stat").toString()){
             case "upload":
                 button.setVisibility(View.GONE);
-                btn_upload_data.setVisibility(View.VISIBLE);
+                btn_upload_data.setVisibility(View.GONE);
                 btn_prepare_data.setVisibility(View.VISIBLE);
                 break;
             case"download":
