@@ -14,5 +14,21 @@
     <string name="btn_upload_data_label">Upload Visit Data</string>
     <string name="btn_prepare_data">Prepare Data</string>
     <string name="sub_title">for ICDS, Jalpaiguri</string>
+    <string name="centre_s_found_open">Centre(s) found open</string>
+    <string name="and">And</string>
+    <string name="monitoring_system">Monitoring System</string>
+    <string name="mobile_based_tracking">Mobile based Tracking</string>
+    <string name="totcentres">9999</string>
+    <string name="opencentres">9999</string>
+    <string name="centre_s_visited">Centre(s) Visited</string>
+    <string name="during_last_30_days">During last 30 days</string>
+    <string name="entre_visit_s">Entre Visit(s)</string>
+    <string name="upload_visit_s">Upload Visit(s)</string>
+    <string name="logout">Logout</string>
+    <string name="download">Download</string>
+    <string name="todo">TODO</string>
+    <string name="you_r_already_logged_in">You\'r already logged in!</string>
+    <string name="logout1">Logout</string>
+    <string name="back_to_dashboard">Back to Dashboard</string>
 
 </resources>

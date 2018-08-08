@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tools_bg"
+    android:background="@drawable/logout_backgound1"
     tools:context=".Tools">
 
 
