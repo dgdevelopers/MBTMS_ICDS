@@ -48,11 +48,17 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
     Switch cSwitch;
     TableRow tr01, tr02, tr03, tr04, tr05, tr06, tr07, tr08, tr09, tr10, tr11, tr12, tr13, tr14;
     Switch vis_cent_open_switch, ans_cent_open_switch, ans_cent_ecce_switch;
+
     Uri selectedImageUri;
 
-    EditText ans_cent_tot_ben, ans_cent_ben_serv, ans_cent_chld_6m_6y, ans_cent_mor_snks, ans_cent_chld_3y_6Y, ans_cent_chld_pse, ans_cent_chld_blw_5y, ans_cent_chld_weighed, ans_cent_chld_mal_mod, ans_cent_chld_mal_severe, ans_cent_mom_meet, ans_cent_reg;
+    EditText ans_cent_tot_ben, ans_cent_ben_serv, ans_cent_chld_6m_6y,
+            ans_cent_mor_snks, ans_cent_chld_3y_6Y, ans_cent_chld_pse,
+            ans_cent_chld_blw_5y, ans_cent_chld_weighed, ans_cent_chld_mal_mod,
+            ans_cent_chld_mal_severe, ans_cent_mom_meet, ans_cent_reg;
 
-    Integer tot_snp, tot_snp_serv, tot_6_6, mor_snks, tot_3_6, pse, tot_blw_5, weighed, mal_mod, mal_seve, mom_meet, register;
+    Integer tot_snp, tot_snp_serv, tot_6_6, mor_snks, tot_3_6, pse,
+            tot_blw_5, weighed, mal_mod, mal_seve, mom_meet, register;
+
     String latitude, longitude;
 
     public Visit_form() {
@@ -164,11 +170,13 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,
-                        "Select Picture"), SELECT_PICTURE);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent,
+//                        "Select Picture"), SELECT_PICTURE);
+                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, SELECT_PICTURE);
             }
         });
 

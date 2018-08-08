@@ -162,7 +162,7 @@ public class Tools extends Fragment {
             InputStream inputStream = cr.openInputStream(uri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
             data = baos.toByteArray();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
