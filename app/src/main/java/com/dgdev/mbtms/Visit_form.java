@@ -285,21 +285,21 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             ans_cent_ben_serv.setError("SNP served should be less/equal to total beneficiaries");
         }
         if (tot_6_6 < mor_snks) {
-            ans_cent_mor_snks.setError("No. of Morning snacks served should be less/equal total child of age group 6 months to 6 years!");
+            ans_cent_mor_snks.setError("No. of Morning snacks served should be less/equal to total child of age group 6 months to 6 years!");
         }
         if (tot_3_6 < pse) {
-            ans_cent_chld_pse.setError("No. of heads present in PSE should be less/equal total child of age group 3 years to 6 years!");
+            ans_cent_chld_pse.setError("No. of heads present in PSE should be less/equal to total child of age group 3 years to 6 years!");
         }
         if (tot_blw_5 < weighed) {
-            ans_cent_chld_weighed.setError("No. of children weighed should be less/equal total child of age group below 5 years!");
+            ans_cent_chld_weighed.setError("No. of children weighed should be less/equal to total child of age group below 5 years!");
         }
 
         if (weighed < mal_mod) {
-            ans_cent_chld_mal_mod.setError("No. of moderately malnourished child should be less/equal total child weighed!");
+            ans_cent_chld_mal_mod.setError("No. of moderately malnourished child should be less/equal to total child weighed!");
         }
 
         if (weighed < mal_seve) {
-            ans_cent_chld_mal_severe.setError("No. of severely malnourished child should be less/equal total child weighed!");
+            ans_cent_chld_mal_severe.setError("No. of severely malnourished child should be less/equal to total child weighed!");
         }
         if (register > 12) {
             ans_cent_reg.setError("No. of registers should be 12 or less!");
@@ -337,7 +337,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             vd.setVisit_id(0);
             vd.setCentreid(code);
             vd.setUserid(uid);
-            vd.setVisit_date(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            vd.setVisit_date(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()).toString());
             vd.setVisit_lat(latitude);
             vd.setVisit_long(longitude);
             vd.setVisit_pic(vispic);

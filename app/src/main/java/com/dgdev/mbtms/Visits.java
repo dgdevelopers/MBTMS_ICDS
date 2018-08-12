@@ -113,7 +113,6 @@ public class Visits extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             CentresArray = MainActivity.db.centreDAO().select_all_centres();
             return null;
         }
