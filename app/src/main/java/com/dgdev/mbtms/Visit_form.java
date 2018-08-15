@@ -43,6 +43,15 @@ import static android.app.Activity.RESULT_OK;
 public class Visit_form extends Fragment implements TextWatcher, LocationListener {
     private LocationManager locationManager;
     private static final int SELECT_PICTURE = 7777;
+    public Boolean
+            VALID_FORM_CTRL_1 = Boolean.FALSE,
+            VALID_FORM_CTRL_2 = Boolean.FALSE,
+            VALID_FORM_CTRL_3 = Boolean.FALSE,
+            VALID_FORM_CTRL_4 = Boolean.FALSE,
+            VALID_FORM_CTRL_5 = Boolean.FALSE,
+            VALID_FORM_CTRL_6 = Boolean.FALSE,
+            VALID_FORM_CTRL_7 = Boolean.FALSE,
+            VALID_FORM_CTRL_8 = Boolean.FALSE;
     String code, name, uid, vispic;
     TextView tvCentName, tvCentCode, btnTakePhoto, btnSaveVisit;
     Switch cSwitch;
@@ -175,7 +184,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
 //                intent.setAction(Intent.ACTION_GET_CONTENT);
 //                startActivityForResult(Intent.createChooser(intent,
 //                        "Select Picture"), SELECT_PICTURE);
-                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, SELECT_PICTURE);
             }
         });
@@ -183,7 +192,20 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         btnSaveVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new saveVisitData().execute();
+                if (
+                        VALID_FORM_CTRL_1 &&
+                                VALID_FORM_CTRL_2 &&
+                                VALID_FORM_CTRL_3 &&
+                                VALID_FORM_CTRL_4 &&
+                                VALID_FORM_CTRL_5 &&
+                                VALID_FORM_CTRL_6 &&
+                                VALID_FORM_CTRL_7 &&
+                                VALID_FORM_CTRL_8
+                        ) {
+                    new saveVisitData().execute();
+                } else {
+                    Toast.makeText(getContext(), "Error: Please check your data before submitting...", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -281,28 +303,81 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             register = 0;
         }
 
+        /* form level validation*/
+
         if (tot_snp < tot_snp_serv) {
             ans_cent_ben_serv.setError("SNP served should be less/equal to total beneficiaries");
+            VALID_FORM_CTRL_1 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_1 = Boolean.TRUE;
         }
+
         if (tot_6_6 < mor_snks) {
             ans_cent_mor_snks.setError("No. of Morning snacks served should be less/equal to total child of age group 6 months to 6 years!");
+            VALID_FORM_CTRL_2 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_2 = Boolean.TRUE;
         }
+
         if (tot_3_6 < pse) {
             ans_cent_chld_pse.setError("No. of heads present in PSE should be less/equal to total child of age group 3 years to 6 years!");
+            VALID_FORM_CTRL_3 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_3 = Boolean.TRUE;
         }
+
         if (tot_blw_5 < weighed) {
             ans_cent_chld_weighed.setError("No. of children weighed should be less/equal to total child of age group below 5 years!");
+            VALID_FORM_CTRL_4 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_4 = Boolean.TRUE;
         }
 
         if (weighed < mal_mod) {
             ans_cent_chld_mal_mod.setError("No. of moderately malnourished child should be less/equal to total child weighed!");
+            VALID_FORM_CTRL_5 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_5 = Boolean.TRUE;
         }
 
         if (weighed < mal_seve) {
             ans_cent_chld_mal_severe.setError("No. of severely malnourished child should be less/equal to total child weighed!");
+            VALID_FORM_CTRL_6 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_6 = Boolean.TRUE;
         }
-        if (register > 12) {
-            ans_cent_reg.setError("No. of registers should be 12 or less!");
+
+        if (weighed < (mal_seve + mal_mod)) {
+            ans_cent_chld_mal_severe.setError("Sum of malnourished child should be less/equal to total child weighed!");
+            VALID_FORM_CTRL_7 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_7 = Boolean.TRUE;
+        }
+
+        if (register > 13) {
+            ans_cent_reg.setError("No. of registers should be 13 or less!");
+            VALID_FORM_CTRL_8 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_8 = Boolean.TRUE;
+        }
+
+
+        if (
+                tot_snp < tot_snp_serv &&
+                        tot_snp < tot_6_6 &&
+                        tot_snp < mor_snks &&
+                        tot_snp < tot_3_6 &&
+                        tot_snp < pse &&
+                        tot_snp < tot_blw_5 &&
+                        tot_snp < weighed &&
+                        tot_snp < mal_mod &&
+                        tot_snp < mal_seve &&
+
+                ) {
+            ans_cent_ben_serv.setError("Total beneficiaries should be higher than any other numbers.");
+            VALID_FORM_CTRL_1 = Boolean.FALSE;
+        } else {
+            VALID_FORM_CTRL_1 = Boolean.TRUE;
         }
 
     }
@@ -372,9 +447,11 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
                 vd.setRegister_found(register);
                 vd.setEcce_followed(ans_cent_ecce_switch.isChecked() ? "Yes" : "No");
             }
+
             MainActivity.db.visitDAO().insert_visit(vd);
             MainActivity.db.centreDAO().update_centre_status(code, "Unsynced");
             MainActivity.db.centreDAO().update_centre_visited_on(code, "Last visited:" + (new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date())));
+
             return null;
         }
 
@@ -391,6 +468,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             selectedImageUri = data.getData();
             vispic = RealPathUtils.getRealPathFromURI_API19(getContext(), selectedImageUri);
+            btnSaveVisit.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
         }
     }
