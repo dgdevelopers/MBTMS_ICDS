@@ -337,7 +337,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             vd.setVisit_id(0);
             vd.setCentreid(code);
             vd.setUserid(uid);
-            vd.setVisit_date(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()).toString());
+            vd.setVisit_date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()).toString());
             vd.setVisit_lat(latitude);
             vd.setVisit_long(longitude);
             vd.setVisit_pic(vispic);
