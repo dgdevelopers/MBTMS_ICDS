@@ -348,6 +348,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         }
 
         if (weighed < (mal_seve + mal_mod)) {
+            ans_cent_chld_mal_mod.setError("Sum of malnourished child should be less/equal to total child weighed!");
             ans_cent_chld_mal_severe.setError("Sum of malnourished child should be less/equal to total child weighed!");
             VALID_FORM_CTRL_7 = Boolean.FALSE;
         } else {
@@ -362,18 +363,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         }
 
 
-        if (
-                tot_snp < tot_snp_serv &&
-                        tot_snp < tot_6_6 &&
-                        tot_snp < mor_snks &&
-                        tot_snp < tot_3_6 &&
-                        tot_snp < pse &&
-                        tot_snp < tot_blw_5 &&
-                        tot_snp < weighed &&
-                        tot_snp < mal_mod &&
-                        tot_snp < mal_seve &&
-
-                ) {
+        if (tot_snp < tot_snp_serv && tot_snp < tot_6_6 && tot_snp < mor_snks && tot_snp < tot_3_6 && tot_snp < pse && tot_snp < tot_blw_5 && tot_snp < weighed && tot_snp < mal_mod && tot_snp < mal_seve) {
             ans_cent_ben_serv.setError("Total beneficiaries should be higher than any other numbers.");
             VALID_FORM_CTRL_1 = Boolean.FALSE;
         } else {
