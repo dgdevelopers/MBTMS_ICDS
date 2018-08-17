@@ -22,6 +22,10 @@ public interface CentreDAO {
     @Query("select * from Centres order by Centre_name")
     List<Centres> select_all_centres();
 
+    @Query("select count(Centre_id) from Centres where status = 'Unsynced'")
+    int count_unsynced_centres();
+
+
     @Query("update Centres set status=:c_status where Centre_id= :c_code")
     void update_centre_status(String c_code, String c_status);
 

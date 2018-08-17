@@ -3,6 +3,7 @@ package com.dgdev.mbtms;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -44,6 +45,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
     private LocationManager locationManager;
     private static final int SELECT_PICTURE = 7777;
     public Boolean
+            VALID_FORM_CTRL_0 = Boolean.FALSE,
             VALID_FORM_CTRL_1 = Boolean.FALSE,
             VALID_FORM_CTRL_2 = Boolean.FALSE,
             VALID_FORM_CTRL_3 = Boolean.FALSE,
@@ -69,6 +71,13 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             tot_blw_5, weighed, mal_mod, mal_seve, mom_meet, register;
 
     String latitude, longitude;
+
+
+    public interface OnVisitDataFragmentActivityListener {
+        void navigate2ListFragment();
+    }
+
+    OnVisitDataFragmentActivityListener onVisitDataFragmentActivityListener;
 
     public Visit_form() {
         // Required empty public constructor
@@ -106,6 +115,12 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         vis_cent_open_switch = (Switch) view.findViewById(R.id.vis_cent_open_switch);
         ans_cent_open_switch = (Switch) view.findViewById(R.id.ans_cent_open_switch);
         ans_cent_ecce_switch = (Switch) view.findViewById(R.id.ans_cent_ecce_switch);
+
+
+        vis_cent_open_switch.setChecked(false);
+        ans_cent_open_switch.setChecked(false);
+        ans_cent_ecce_switch.setChecked(false);
+
 
         tvCentName.setText(name);
         tvCentCode.setText(code);
@@ -192,19 +207,29 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         btnSaveVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (
-                        VALID_FORM_CTRL_1 &&
-                                VALID_FORM_CTRL_2 &&
-                                VALID_FORM_CTRL_3 &&
-                                VALID_FORM_CTRL_4 &&
-                                VALID_FORM_CTRL_5 &&
-                                VALID_FORM_CTRL_6 &&
-                                VALID_FORM_CTRL_7 &&
-                                VALID_FORM_CTRL_8
-                        ) {
-                    new saveVisitData().execute();
+
+                if (vis_cent_open_switch.isChecked()) {
+
+                    if (
+                            VALID_FORM_CTRL_0 &&
+                                    VALID_FORM_CTRL_1 &&
+                                    VALID_FORM_CTRL_2 &&
+                                    VALID_FORM_CTRL_3 &&
+                                    VALID_FORM_CTRL_4 &&
+                                    VALID_FORM_CTRL_5 &&
+                                    VALID_FORM_CTRL_6 &&
+                                    VALID_FORM_CTRL_7 &&
+                                    VALID_FORM_CTRL_8
+
+                            ) {
+                        new saveVisitData().execute();
+                        onVisitDataFragmentActivityListener.navigate2ListFragment();
+                    } else {
+                        Toast.makeText(getContext(), "Error: Please check your data before submitting...", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(getContext(), "Error: Please check your data before submitting...", Toast.LENGTH_LONG).show();
+                    new saveVisitData().execute();
+                    onVisitDataFragmentActivityListener.navigate2ListFragment();
                 }
             }
         });
@@ -304,6 +329,12 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         }
 
         /* form level validation*/
+
+        if (tot_snp > 0){
+            VALID_FORM_CTRL_0 = Boolean.TRUE;
+        }else{
+            VALID_FORM_CTRL_0 = Boolean.FALSE;
+        }
 
         if (tot_snp < tot_snp_serv) {
             ans_cent_ben_serv.setError("SNP served should be less/equal to total beneficiaries");
@@ -439,6 +470,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             }
 
             MainActivity.db.visitDAO().insert_visit(vd);
+
             MainActivity.db.centreDAO().update_centre_status(code, "Unsynced");
             MainActivity.db.centreDAO().update_centre_visited_on(code, "Last visited:" + (new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date())));
 
@@ -461,6 +493,14 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
             btnSaveVisit.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = (Activity) context;
+        onVisitDataFragmentActivityListener = (OnVisitDataFragmentActivityListener) activity;
     }
 }
 

@@ -199,23 +199,31 @@ public class Tools extends Fragment {
 
     private class centreAsyncOperation extends AsyncTask<Void, Void, Void> {
 
+        String SuccessString ="";
+
         @Override
         protected Void doInBackground(Void... voids) {
 
-            MainActivity.db.centreDAO().delete_all_centres();
-            for (int i = 0; i < CentreList.size(); i++) {
-                Centres centre = new Centres();
-                centre.setCentre_id(CentreList.get(i).getCentreId());
-                centre.setCentre_name(CentreList.get(i).getCentreName());
-                MainActivity.db.centreDAO().insert_centre(centre);
+            if (MainActivity.db.centreDAO().count_unsynced_centres()>0){
+                SuccessString = "You have " + MainActivity.db.centreDAO().count_unsynced_centres() + " Nos. of unsyncronized visits in device...";
+            }else{
+                MainActivity.db.centreDAO().delete_all_centres();
+                for (int i = 0; i < CentreList.size(); i++) {
+                    Centres centre = new Centres();
+                    centre.setCentre_id(CentreList.get(i).getCentreId());
+                    centre.setCentre_name(CentreList.get(i).getCentreName());
+                    MainActivity.db.centreDAO().insert_centre(centre);
+                    SuccessString = "Successfully downloaded " + CentreList.size() + "nos. centres...";
+                }
             }
+
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            String SuccessString = "Successfully downloaded " + CentreList.size() + " centres...";
             Toast.makeText(getActivity(), SuccessString, Toast.LENGTH_LONG).show();
             textView.setText(SuccessString);
         }

@@ -17,7 +17,7 @@ import com.dgdev.mbtms.local.preferences.PreferencesConfig;
 import com.dgdev.mbtms.local.preferences.data.AppLocalDB;
 import com.dgdev.mbtms.remote.ModelEfficiencyResponse;
 
-public class MainActivity extends AppCompatActivity implements Userscreen.OnLoginFragmentActivityListener, Welcome.onWelcomeFragmentActivityLienster, Dashboard.OnDashboardFragmentActivityListener, Reports.OnReportsFragmentActvityListener, Visits.OnVisitFragmentActivityListener, Tools.OnToolsFragmentActivityListener {
+public class MainActivity extends AppCompatActivity implements Userscreen.OnLoginFragmentActivityListener, Welcome.onWelcomeFragmentActivityLienster, Dashboard.OnDashboardFragmentActivityListener, Reports.OnReportsFragmentActvityListener, Visits.OnVisitFragmentActivityListener, Tools.OnToolsFragmentActivityListener,Visit_form.OnVisitDataFragmentActivityListener {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
@@ -245,5 +245,16 @@ public class MainActivity extends AppCompatActivity implements Userscreen.OnLogi
     @Override
     public void refreshEfficiencyReport(ModelEfficiencyResponse mer) {
         preferencesConfig.saveEffiData(mer);
+    }
+
+    @Override
+    public void navigate2ListFragment() {
+        try{
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = Visits.class.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
