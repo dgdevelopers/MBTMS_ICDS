@@ -41,4 +41,10 @@ dependencies {
     //room database
     implementation "android.arch.persistence.room:runtime:1.1.1"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+
+    //runtime permission check
+    implementation 'com.nabinbhandari.android:permissions:3.7'
+
+    //Google Location and Activity Recognition
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
 }

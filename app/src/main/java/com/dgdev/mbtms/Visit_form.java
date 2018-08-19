@@ -13,8 +13,12 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -28,6 +32,13 @@ import android.widget.Toast;
 
 import com.dgdev.mbtms.local.preferences.RealPathUtils;
 import com.dgdev.mbtms.local.preferences.data.Visitdata;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import org.w3c.dom.Text;
 
@@ -41,8 +52,12 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Visit_form extends Fragment implements TextWatcher, LocationListener {
-    private LocationManager locationManager;
+public class Visit_form extends Fragment implements TextWatcher, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+
+    FusedLocationProviderClient mFusedLocationClient;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
     private static final int SELECT_PICTURE = 7777;
     public Boolean
             VALID_FORM_CTRL_0 = Boolean.FALSE,
@@ -72,6 +87,32 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
 
     String latitude, longitude;
 
+    LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            for (Location location : locationResult.getLocations()) {
+                latitude = location.getLatitude() + "";
+                longitude = location.getLongitude() + "";
+            }
+        }
+    };
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        requestLocationUpdates();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
 
     public interface OnVisitDataFragmentActivityListener {
         void navigate2ListFragment();
@@ -85,9 +126,52 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (mGoogleApiClient != null && mFusedLocationClient != null) {
+            requestLocationUpdates();
+        } else {
+            buildGoogleApiClient();
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+
+
+    public void requestLocationUpdates() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(0); // two minute interval
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_visit_form, container, false);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         code = getArguments().get("cent_code").toString();
         name = getArguments().get("cent_name").toString();
         uid = getArguments().get("uid").toString();
@@ -194,11 +278,6 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent,
-//                        "Select Picture"), SELECT_PICTURE);
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, SELECT_PICTURE);
             }
@@ -207,7 +286,7 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
         btnSaveVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(getContext(),"Your location is " + latitude+ ":"+latitude,Toast.LENGTH_LONG).show();
                 if (vis_cent_open_switch.isChecked()) {
 
                     if (
@@ -233,21 +312,6 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
                 }
             }
         });
-
-
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-
-        if (ActivityCompat.checkSelfPermission(
-                getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED
-                &&
-                ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-
-            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-            onLocationChanged(location);
-        }
 
 
         return view;
@@ -330,14 +394,15 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
 
         /* form level validation*/
 
-        if (tot_snp > 0){
+        if (tot_snp > 0) {
             VALID_FORM_CTRL_0 = Boolean.TRUE;
-        }else{
+        } else {
+            ans_cent_tot_ben.setError("Total beneficiaries should not be zero!");
             VALID_FORM_CTRL_0 = Boolean.FALSE;
         }
 
         if (tot_snp < tot_snp_serv) {
-            ans_cent_ben_serv.setError("SNP served should be less/equal to total beneficiaries");
+            ans_cent_ben_serv.setError("SNP served should be less/equal to total beneficiaries!");
             VALID_FORM_CTRL_1 = Boolean.FALSE;
         } else {
             VALID_FORM_CTRL_1 = Boolean.TRUE;
@@ -403,27 +468,6 @@ public class Visit_form extends Fragment implements TextWatcher, LocationListene
 
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        latitude = location.getLatitude() + "";
-        longitude = location.getLongitude() + "";
-        Toast.makeText(getContext(), "Visit location is : " + latitude + " || " + longitude, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
 
     private class saveVisitData extends AsyncTask<Void, Void, Void> {
 
