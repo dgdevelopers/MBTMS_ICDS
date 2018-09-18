@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -42,6 +44,7 @@ import com.google.android.gms.location.LocationServices;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -539,8 +542,17 @@ public class Visit_form extends Fragment implements TextWatcher, GoogleApiClient
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             selectedImageUri = data.getData();
             vispic = RealPathUtils.getRealPathFromURI_API19(getContext(), selectedImageUri);
-            btnSaveVisit.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), vispic, Toast.LENGTH_LONG).show();
+            File file = new File(vispic);
+            long length = file.length();
+            if (length > 1572864){
+                Toast.makeText(getActivity(), "Your image file is larger than permissible size! i.e. 1.50 MB", Toast.LENGTH_LONG).show();
+                btnSaveVisit.setVisibility(View.GONE);
+            }else{
+                btnSaveVisit.setVisibility(View.VISIBLE);
+            }
+
+//            Toast.makeText(getActivity(), Long.toString(length), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -552,4 +564,3 @@ public class Visit_form extends Fragment implements TextWatcher, GoogleApiClient
         onVisitDataFragmentActivityListener = (OnVisitDataFragmentActivityListener) activity;
     }
 }
-
