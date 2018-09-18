@@ -286,29 +286,34 @@ public class Visit_form extends Fragment implements TextWatcher, GoogleApiClient
         btnSaveVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Your location is " + latitude+ ":"+latitude,Toast.LENGTH_LONG).show();
-                if (vis_cent_open_switch.isChecked()) {
 
-                    if (
-                            VALID_FORM_CTRL_0 &&
-                                    VALID_FORM_CTRL_1 &&
-                                    VALID_FORM_CTRL_2 &&
-                                    VALID_FORM_CTRL_3 &&
-                                    VALID_FORM_CTRL_4 &&
-                                    VALID_FORM_CTRL_5 &&
-                                    VALID_FORM_CTRL_6 &&
-                                    VALID_FORM_CTRL_7 &&
-                                    VALID_FORM_CTRL_8
+                if(latitude==(null) || longitude==(null) || latitude.isEmpty() || longitude.isEmpty()){
+                    Toast.makeText(getContext(),"Can't get the location data, Try Again",Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getContext(),"Your location is " + latitude+ ":"+longitude,Toast.LENGTH_LONG).show();
+                    if (vis_cent_open_switch.isChecked()) {
 
-                            ) {
+                        if (
+                                VALID_FORM_CTRL_0 &&
+                                        VALID_FORM_CTRL_1 &&
+                                        VALID_FORM_CTRL_2 &&
+                                        VALID_FORM_CTRL_3 &&
+                                        VALID_FORM_CTRL_4 &&
+                                        VALID_FORM_CTRL_5 &&
+                                        VALID_FORM_CTRL_6 &&
+                                        VALID_FORM_CTRL_7 &&
+                                        VALID_FORM_CTRL_8
+
+                                ) {
+                            new saveVisitData().execute();
+                            onVisitDataFragmentActivityListener.navigate2ListFragment();
+                        } else {
+                            Toast.makeText(getContext(), "Error: Please check your data before submitting...", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
                         new saveVisitData().execute();
                         onVisitDataFragmentActivityListener.navigate2ListFragment();
-                    } else {
-                        Toast.makeText(getContext(), "Error: Please check your data before submitting...", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    new saveVisitData().execute();
-                    onVisitDataFragmentActivityListener.navigate2ListFragment();
                 }
             }
         });
