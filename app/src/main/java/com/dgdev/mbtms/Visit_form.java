@@ -491,7 +491,7 @@ public class Visit_form extends Fragment implements TextWatcher, GoogleApiClient
             vd.setVisit_pic(vispic);
             vd.setOwn_building(vis_cent_open_switch.isChecked() ? "Yes" : "No");
             vd.setCentre_open(ans_cent_open_switch.isChecked() ? "Yes" : "No");
-            if (ans_cent_open_switch.isChecked() == false) {
+            if (vis_cent_open_switch.isChecked() == false) {
                 vd.setBenef_total(0);
                 vd.setBenef_serve(0);
                 vd.setChld_7m_6y_tot(0);
